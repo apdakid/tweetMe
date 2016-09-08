@@ -15,13 +15,17 @@ initDB(db);
 
 function initDB(db) {
     db.serialize(function() {
-        db.run("CREATE TABLE twitter (info TEXT)");
-        var stmt = db.prepare("INSERT INTO twitter VALUES (?)");
+        db.run("CREATE TABLE twitter (userName, tweet)");
+        var userInput = db.prepare("INSERT INTO userName VALUES (?)");
+        var tweetInput = db.prepare("INSERT INTO tweet VALUES (?)");
         for (var i = 0; i < 10; i++) {
-            stmt.run("Tweet " + i);
+            userInput.run("@user " + i);
+            tweetInput.run("tweet" + 1);
+
         }
-        stmt.finalize();
-        db.each("SELECT rowid AS id, info FROM lorem", function(err, row) {
+        userInput.finalize();
+       // tweet.finalize();
+        db.each("SELECT rowid AS id, info FROM userName", function(err, row) {
             if (err) {
                 console.log(err);
             }
