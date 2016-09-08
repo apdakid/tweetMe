@@ -1,0 +1,26 @@
+{
+  "name": "tweetme",
+  "version": "1.0.0",
+  "description": "Aaron and Rita's prj",
+  "main": "db.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "js-beautify": "^1.6.4",
+    "mocha": "^3.0.2",
+    "sqlite3": "^3.1.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apdakid/tweetMe.git"
+  },
+  "author": "Apdakid and Rita",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apdakid/tweetMe/issues"
+  },
+  "homepage": "https://github.com/apdakid/tweetMe#readme"
+}
