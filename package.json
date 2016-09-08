@@ -1,0 +1,25 @@
+{
+  "name": "tweetme",
+  "version": "1.0.0",
+  "description": "twitter project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apdakid/tweetMe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apdakid/tweetMe/issues"
+  },
+  "homepage": "https://github.com/apdakid/tweetMe#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "js-beautify": "^1.6.4",
+    "mocha": "^3.0.2",
+    "sqlite3": "^3.1.4"
+  }
+}
