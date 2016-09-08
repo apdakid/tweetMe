@@ -2,7 +2,7 @@
   "name": "tweetme",
   "version": "1.0.0",
   "description": "Aaron and Rita's prj",
-  "main": "db.js",
+  "main": "index.js",
   "dependencies": {
     "express": "^4.14.0",
     "js-beautify": "^1.6.4",
