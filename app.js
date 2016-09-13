@@ -6,7 +6,7 @@ var db = new sqlite3.Database('tweetDB.db');
 function insertTweet(db, user, text) {
     return new Promise(
         (resolve, reject) => {
-			db.run("INSERT into tweet VALUES (?, ?)", [user,text]),
+			db.run("INSERT into tweet VALUES (?, ?,?,?,?)", [user,text]),
 				function (err) {
 					if (err) {
 						reject(err);
@@ -18,6 +18,38 @@ function insertTweet(db, user, text) {
         }
     );
 }
+
+function showMyTweets(db, user){
+	return new Promise(
+		(resolve, reject) => {
+			db.each("SELECT tweet_text FROM tweet JOIN user ON tweet.user_name = user.user_name JOIN follow ON follow.user_name = user.user_name WHERE user.user_name = ? and following_name = tweet.user_name ORDER BY DESC", user),
+			function(err,rows){
+				if (err) {
+						reject(err);
+						return;
+					}
+					resolve(rows);
+				}
+		}
+	)
+}
+
+function verifyUser(db, user){
+	return new Promise(
+		(resolve, reject) => {
+			db.all("SELECT * from user WHERE user_name = ?", user),
+				function (err, rows){
+					if(err){
+						reject(err);
+						return;
+					}
+					resolve(rows);
+				}
+		}
+	)
+}
+
+
 
 insertTweet(db, 'John', 'hello').then(
 	(val) => {
