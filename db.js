@@ -1,36 +1,149 @@
-var express = require('express');
-var app = express();
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('twitter.db');
-app.get('/', function(req, res) {
-    res.send('Welcome to A&H Twitter!');
-});
-app.get('/foo', function(req, res) {
-    res.send('yo');
-});
-app.listen(3000, function() {
-    console.log('Example app listening on port 3000!');
-});
-initDB(db);
 
-function initDB(db) {
-    db.serialize(function() {
-        db.run("CREATE TABLE twitter (userName, tweet)");
-        var userInput = db.prepare("INSERT INTO userName VALUES (?)");
-        var tweetInput = db.prepare("INSERT INTO tweet VALUES (?)");
-        for (var i = 0; i < 10; i++) {
-            userInput.run("@user " + i);
-            tweetInput.run("tweet" + 1);
+exports.insertTweet = inserTweet;
+function insertTweet(user, text) {
+    return new Promise(
+        (resolve, reject) => {
+            db.run("INSERT into tweet VALUES (?, ?,?,?,?)", [user, text]),
+                function (err) {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    resolve();
+                }
 
         }
-        userInput.finalize();
-       // tweet.finalize();
-        db.each("SELECT rowid AS id, info FROM userName", function(err, row) {
-            if (err) {
-                console.log(err);
-            }
-            console.log(row.id + ": " + row.info);
-        });
-    });
+    );
 }
-db.close();
+
+exports.newUser = newUser;
+function newUser(username, fullname) {
+    var currTstamp = new Date();
+    return new Promise(
+        (resolve, reject) => {
+            db.run("INSERT into user VALUES (?,?,?,?)", [userid, username, currTstamp, fullname]),
+                function (err, rows) {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    resolve(rows);
+                }
+        }
+    )
+}
+
+
+function showMyTweets(user) {
+    return new Promise(
+        (resolve, reject) => {
+            db.each(`SELECT tweet_text FROM tweet 
+			JOIN user ON tweet.user_name = user.user_name 
+			JOIN follow ON follow.user_name = user.user_name 
+			WHERE user.user_name = ? and following_name = tweet.user_name ORDER BY DESC`, user),
+                function (err, rows) {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    resolve(rows);
+                }
+        }
+    )
+}
+
+function verifyUser(user) {
+    return new Promise(
+        (resolve, reject) => {
+            db.all("SELECT * from user WHERE user_name = ?", user),
+                function (err, rows) {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    resolve(rows);
+                }
+        }
+    )
+}
+
+
+
+// insertTweet(db, 'John', 'hello').then(
+// 	(val) => {
+//       console.log("inserted");
+// 	}
+// ).catch(
+// 	(err) => {
+//      console.log("insert failed:", err);
+// 	}
+// );
+
+
+function deleteTweet(db, user, text) {
+    return new Promise(
+        (resolve, reject) => {
+            var cmd = "DELETE from tweet where col1 = ?";
+            db.run(cmd, user),
+                function (err) {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    resolve();
+                }
+
+        }
+    );
+}
+
+// deleteTweet(db, 'John', 'hello').then(
+// 	(val) => {
+//       console.log("deleted");
+// 	}
+// ).catch(
+// 	(err) => {
+//      console.log("delete failed:", err);
+// 	}
+// );
+
+//updated function
+
+
+function updateTweet(db, user, text) {
+    return new Promise(
+        (resolve, reject) => {
+            var cmd = "UPDATE tweet SET col2= ? WHERE col1 = ?";
+            db.run(cmd, user, text),
+                function (err) {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    resolve();
+                }
+
+        }
+    );
+}
+
+// updateTweet(db, 'john', 'hello').then(
+// 	(val) => {
+//       console.log("updated");
+// 	}
+// ).catch(
+// 	(err) => {
+//      console.log("update failed:", err);
+// 	}
+// );
+
+
+
+
+// db.all("SELECT * from tweet",function(err,rows){
+// 	 rows.forEach(function (rows) {
+//            console.log(rows);
+//      })
+// });

@@ -1,0 +1,15 @@
+td {
+    border-radius: 25px;
+    border: 2px solid dodgerblue;
+    padding: 20px;
+    height: 300px;
+}
+
+#tweetCol{
+    background: dodgerblue;
+    width: 50%;
+}
+
+#userCol{
+    width: 50%;
+}
