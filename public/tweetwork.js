@@ -22,7 +22,12 @@ login.onclick = function(){
 };
 
 function displayTweets(data){
+    var tweetCol = document.getElementById("tweetCol");
     console.log(data);
+    for (var key in data)
+    {
+        tweetCol.innerHTML = data[key].tweet_text;
+    }
 }
 
 function loginUser(name) { 
