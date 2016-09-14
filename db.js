@@ -1,7 +1,7 @@
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('twitter.db');
 
-exports.insertTweet = inserTweet;
+exports.insertTweet = insertTweet;
 function insertTweet(user, text) {
     return new Promise(
         (resolve, reject) => {
@@ -35,7 +35,7 @@ function newUser(username, fullname) {
     )
 }
 
-
+exports.showMyTweets = showMyTweets;
 function showMyTweets(user) {
     return new Promise(
         (resolve, reject) => {
@@ -54,6 +54,7 @@ function showMyTweets(user) {
     )
 }
 
+exports.verifyUser = verifyUser;
 function verifyUser(user) {
     return new Promise(
         (resolve, reject) => {
@@ -81,8 +82,8 @@ function verifyUser(user) {
 // 	}
 // );
 
-
-function deleteTweet(db, user, text) {
+exports.deleteTweet = deleteTWeet;
+function deleteTweet(user, text) {
     return new Promise(
         (resolve, reject) => {
             var cmd = "DELETE from tweet where col1 = ?";
@@ -111,8 +112,8 @@ function deleteTweet(db, user, text) {
 
 //updated function
 
-
-function updateTweet(db, user, text) {
+exports.updateTweet = updateTweet;
+function updateTweet(user, text) {
     return new Promise(
         (resolve, reject) => {
             var cmd = "UPDATE tweet SET col2= ? WHERE col1 = ?";

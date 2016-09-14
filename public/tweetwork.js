@@ -17,24 +17,12 @@
 var login = document.getElementById("loginButt");
 
 login.onclick = function(){
-    
-    if(evt.keyCode === 13){
-        findMovie(textBox.value);
-    }
-    console.log("key pressed");
+    var name = document.getElementById("username");
+    loginUser(name);
 };
 
-function findMovie(title){
-    var xhttp= new XMLHttpRequest();
-    xhttp.onreadystatechange= function(){
-        if(this.readyState === 4 && this.status === 200){
-            var data = JSON.parse(this.responseText);
-            displayMovieInfo(data);
-            console.log(data);
-        }
-    };
-    xhttp.open("GET", "http://www.omdbapi.com/?t="+title+"&y=&plot=short&r=json",true);
-    xhttp.send();
+function displayTweets(data){
+    console.log(data);
 }
 
 function loginUser(name) { 
@@ -44,6 +32,7 @@ function loginUser(name) {
         if (this.readyState === 4 && this.status === 200) { 
             var data = JSON.parse(this.responseText); 
             console.log(data); 
+            displayTweets(data);
         //  printUserId(data, name); 
         } 
     }; 
