@@ -3,9 +3,10 @@ var db = new sqlite3.Database('twitterDB.db');
 
 exports.insertTweet = insertTweet;
 function insertTweet(user, text) {
+   var currTstamp = new Date();
     return new Promise(
         (resolve, reject) => {
-            db.run("INSERT into tweet VALUES (?, ?,?,?,?)", [user, text]),
+            db.run("INSERT into tweet VALUES (?,CURRENT_TIMESTAMP,?)", [text,user]),
                 function (err) {
                     if (err) {
                         reject(err);
@@ -15,21 +16,21 @@ function insertTweet(user, text) {
                 }
 
         }
-    );
-}
+    )
+};
 
 exports.newUser = newUser;
 function newUser(username, fullname) {
     var currTstamp = new Date();
     return new Promise(
         (resolve, reject) => {
-            db.run("INSERT into user VALUES (?,?,?,?)", [userid, username, currTstamp, fullname]),
-                function (err, rows) {
+            db.run("INSERT into user VALUES (?,?,?)", [username, currTstamp, fullname]),
+                function (err) {
                     if (err) {
                         reject(err);
                         return;
                     }
-                    resolve(rows);
+                    resolve(username,currTstamp,fullname);
                 }
         }
     )
@@ -53,8 +54,8 @@ function showMyTweets(user) {
     )
 }
 
-exports.verifyUser = verifyUser;
-function verifyUser(user) {
+exports.getUser = getUser;
+function getUser(user) {
     return new Promise(
         (resolve, reject) => {
             db.all("SELECT * from user WHERE user_name = ?", user),

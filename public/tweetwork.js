@@ -15,18 +15,31 @@
 // http.send(params);
 
 var login = document.getElementById("loginButt");
+var user;
 
 login.onclick = function(){
     var name = document.getElementById("username").value;
+    user = name;    
     loginUser(name);
 };
+var tweet = document.getElementById("subTweet");
+
+tweet.onclick = function(){
+    var msg = document.getElementById("tweetmsg").value;
+    newTweet(user,msg);
+};
+
+function keepUser(name){
+    var logUser = this.value;
+    return logUser;
+}
 
 function displayTweets(data){
     var tweetCol = document.getElementById("tweetCol");
     console.log(data);
     for (var key in data)
     {
-        tweetCol.innerHTML = data[key].tweet_text;
+        tweetCol.innerHTML += data[key].tweet_text;
     }
 }
 
@@ -44,3 +57,34 @@ function loginUser(name) {
     xhttp.open("GET", "/timeline/" + name, true); 
     xhttp.send(); 
 } 
+
+function newUser(name, fullname) { 
+     var xhttp = new XMLHttpRequest(); 
+     xhttp.onreadystatechange = function () { 
+ 
+        if (this.readyState === 4 && this.status === 200) { 
+            var data = JSON.parse(this.responseText); 
+            console.log(data); 
+            displayUser(data);
+        //  printUserId(data, name); 
+        } 
+    }; 
+    xhttp.open("POST", "/newUser/" + name + '/' +fullname, true); 
+    xhttp.send(); 
+} 
+
+function newTweet(name, text) { 
+     var xhttp = new XMLHttpRequest(); 
+     xhttp.onreadystatechange = function () { 
+ 
+        if (this.readyState === 4 && this.status === 200) { 
+            var data = JSON.parse(this.responseText); 
+            console.log(data); 
+        //    displayUser(data);
+        //  printUserId(data, name); 
+        } 
+    }; 
+    xhttp.open("POST", "/newTweet/" + name + '/' + text, true); 
+    xhttp.send(); 
+} 
+

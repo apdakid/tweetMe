@@ -5,11 +5,9 @@ db.serialize(function () {
 //see this link for syntax: https://github.com/kripken/sql.js/commit/413e139526b49619aee1d390c89a2cd6150d420f
 
 var cmdTweet = "CREATE TABLE IF NOT EXISTS tweet ("+
-"  tweet_id NOT NULL,"+
 "  tweet_text TEXT NOT NULL,"+
 "  created_at datetime NOT NULL,"+
 "  user_name text NOT NULL, "+
-"  PRIMARY KEY (tweet_id), " +
 " FOREIGN KEY (user_name) REFERENCES user(user_name)) ";
   
 //   console.log(cmdTweet);

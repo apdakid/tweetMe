@@ -26,15 +26,54 @@ app.get("/", function(req, res){
 //      }); 
 // }) 
 
-
-// app.post('/insertUser/:name/:password', urlencodedParser, function (req, res) { 
-//     dbFile.insertUser(req.params.name, 'testprofile', req.params.password, 'testloginName'); 
+//example of using promises to wait for req to be completed
+// app.post('/newUser/:username/:fullname', urlencodedParser, function (req, res) { 
+//     dbFile.newUser(req.params.username, req.params.fullname).then(
+//         (val) => {
+//             return dbFile.getUser(req.params.username);
+//         }
+//     ).then(
+//         (val) => {
+//             res.send(val);
+//         }
+//     ).catch(
+//          (err) => {
+//             res.status(400);
+//             res.send('User already exist.');
+//         }
+//     );
 //      //    console.log(JSON.parse(JSON.stringify(user))); 
 //      //console.log(JSON.stringify(user)); 
  
  
 //      res.send({userName: req.params.name});
 // })
+
+app.post('/newUser/:username/:fullname', urlencodedParser, function (req, res) { 
+    dbFile.newUser(req.params.username, req.params.fullname).then(
+        (val) => {
+          res.send(val);
+        }
+    ).catch(
+         (err) => {
+            res.status(400);
+            res.send('User already exist.');
+        }
+    );
+  });
+
+  app.post('/newTweet/:username/:msg', urlencodedParser, function (req, res) { 
+    dbFile.insertTweet(req.params.username, req.params.msg).then(
+        (val) => {
+          res.send(val);
+        }
+    ).catch(
+         (err) => {
+            res.status(400);
+            res.send('error with something.');
+        }
+    );
+  });
 
 app.get('/timeline/:username', urlencodedParser, function (req, res){
     dbFile.showMyTweets(req.params.username).then(
