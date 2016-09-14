@@ -1,5 +1,5 @@
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('twitter.db');
+var db = new sqlite3.Database('twitterDB.db');
 
 exports.insertTweet = insertTweet;
 function insertTweet(user, text) {
@@ -39,10 +39,8 @@ exports.showMyTweets = showMyTweets;
 function showMyTweets(user) {
     return new Promise(
         (resolve, reject) => {
-            db.each(`SELECT tweet_text FROM tweet 
-			JOIN user ON tweet.user_name = user.user_name 
-			JOIN follow ON follow.user_name = user.user_name 
-			WHERE user.user_name = ? and following_name = tweet.user_name ORDER BY DESC`, user),
+            db.all(`SELECT tweet_text FROM tweet 
+			    WHERE user_name = ?  ORDER BY created_at DESC`, user,
                 function (err, rows) {
                     if (err) {
                         reject(err);
@@ -50,6 +48,7 @@ function showMyTweets(user) {
                     }
                     resolve(rows);
                 }
+            );
         }
     )
 }
@@ -82,7 +81,7 @@ function verifyUser(user) {
 // 	}
 // );
 
-exports.deleteTweet = deleteTWeet;
+exports.deleteTweet = deleteTweet;
 function deleteTweet(user, text) {
     return new Promise(
         (resolve, reject) => {

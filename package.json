@@ -4,6 +4,7 @@
   "description": "Aaron and Rita's prj",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "js-beautify": "^1.6.4",
     "mocha": "^3.0.2",

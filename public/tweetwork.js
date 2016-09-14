@@ -17,7 +17,7 @@
 var login = document.getElementById("loginButt");
 
 login.onclick = function(){
-    var name = document.getElementById("username");
+    var name = document.getElementById("username").value;
     loginUser(name);
 };
 

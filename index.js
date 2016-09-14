@@ -48,7 +48,7 @@ app.get('/timeline/:username', urlencodedParser, function (req, res){
         }
     );
 
-})
+});
 
 // app.listen(3000, function(){
 //     console.log('booo-yah!');
@@ -63,4 +63,4 @@ app.get('/timeline/:username', urlencodedParser, function (req, res){
      console.log("Example app listening at http://%s:%s", host, port); 
  
  
- }) 
+ }); 
